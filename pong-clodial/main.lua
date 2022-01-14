@@ -54,17 +54,19 @@ function love.load()
         resizable = false,
         vsync = true
     })
-
+	gameObjectSize = 1
+	gameObjects[1] = Powerup(200,100,32,32,powerupImage)
 end
 
 function love.update(dt)
 
 	if(gameObjectSize > 0) then
-		for i=0, gameObjectSize do
+		for i=1, gameObjectSize do
 			gameObjects[i]:update(dt)
 		end
-		
+		garbageCollection(gameObjects)
 	end
+
 end
 
 function love.keypressed(key)
@@ -74,10 +76,25 @@ function love.keypressed(key)
 end
 
 function love.draw()
+	--testing purposes for external pngs
+	--love.graphics.draw(powerupImage,0,0) --uncomment for basic image test
+	if(gameObjectSize > 0) then
+		for i=1, gameObjectSize do
+			gameObjects[i]:render()
+		end
+	end
 end
 
 --gameObjects array reference 
-function collection(gameObjects)
+function garbageCollection(gameObjects)
 	
-	
+	if gameObjectSize > 0 then
+		for i=1, gameObjectSize do
+			if(gameObjects[i].live == false) then
+				table.remove(gameObjects, i)
+				gameObjectSize = gameObjectSize - 1
+			end
+		end
+	end
+	collectgarbage("collect")
 end

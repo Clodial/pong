@@ -17,16 +17,18 @@ function Powerup:init(x, y, width, height, image)
 	self.ttl = 200
 	self.ttlInit = 0
 	self.live = true
+	self.image = image
+	print("created  powerup")
 end
 
 function Powerup:update(dt)
-	ttlinit = ttlinit + 1
-	if ttl == ttlInit then 
+	self.ttlInit = self.ttlInit + 1
+	if self.ttl == self.ttlInit then
 		self.live = false
 	end
 end
 
 
 function Powerup:render()
-	love.graphics.draw(image)
+	love.graphics.draw(self.image, 0,0)
 end
